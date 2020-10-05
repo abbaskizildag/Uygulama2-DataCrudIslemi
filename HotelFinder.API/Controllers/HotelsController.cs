@@ -41,21 +41,37 @@ namespace HotelFinder.API.Controllers
         }
 
         [HttpPost]
-        public Hotel Post([FromBody]Hotel hotel)
+        public IActionResult Post([FromBody]Hotel hotel)
         {
-            return _hotelService.CreateHotel(hotel);
+            //if (ModelState.IsValid) benim yukarıdaki ApiController diye bir route var. Bu hotel.cs de reuqired olanları orada kontrol ediyor. Dolayısıyla eğer apicontroller olmasaydi modelstate.isvalid kullanırdır ama olduğu için kullanmaya gerenk yok.
+            //{
+                var createHotel = _hotelService.CreateHotel(hotel);
+                return CreatedAtAction("Get", new { id = createHotel.Id }, createHotel); //201 + data
+            //}
+           // return BadRequest(ModelState); //400 +validation errors
 
         }
         [HttpPut]
-        public Hotel Put([FromBody] Hotel hotel)
+        public IActionResult Put([FromBody] Hotel hotel)
         {
-            return _hotelService.UpdateHotel(hotel);
+            if (_hotelService.GetHotelById(hotel.Id)!=null)
+            {
+                return Ok(_hotelService.UpdateHotel(hotel)); //200 responca kodu + data
+            }
+            return NotFound();
 
         }
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _hotelService.DeleteHotel(id);
+            if (_hotelService.GetHotelById(id) != null)
+            {
+                _hotelService.DeleteHotel(id);
+                return Ok(); //200 responca kodu 
+            }
+            return NotFound(); 
+
+            //_hotelService.DeleteHotel(id);
 
         }
     }
