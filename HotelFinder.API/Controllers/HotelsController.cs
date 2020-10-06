@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using HotelFinder.Business.Abstract;
@@ -38,6 +39,18 @@ namespace HotelFinder.API.Controllers
             }
             return NotFound(); //yani 404 herhangi data gönderilmeyecek
             
+        }
+        
+        [HttpGet]
+        [Route("[action]/{name}")]
+        public IActionResult GetHotelByName(string name)
+        {
+            var hotel = _hotelService.GetHotelByName(name);
+            if (hotel != null)
+            {
+                return Ok(hotel); //200 + hotel datası döndü
+            }
+            return NotFound();
         }
 
         [HttpPost]

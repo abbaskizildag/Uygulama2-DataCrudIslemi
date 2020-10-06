@@ -12,7 +12,7 @@ namespace HotelFinder.DataAccess
         {
             //ilk yapacağımız işlem bu onconfiguring metodunu override etmek.
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=DESKTOP-8I2K0GM; Database=HotelDb; Integrated Security=True;");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-MD8KOD4; Database=HotelDb; Integrated Security=True;");
             //burada database henüz yok migrationda böyle bir db oluşturucak.
         }
 
